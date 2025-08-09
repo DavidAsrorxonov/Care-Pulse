@@ -11,6 +11,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { FormFieldType } from "../forms/PatientForm";
+import Image from "next/image";
 
 interface CustomProps {
   control: Control<any>;
@@ -27,7 +28,32 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
 }
 
-const CustomFormField = ({ control, fieldType, name, label }: CustomProps) => {
+const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
+  const { fieldType, iconSrc, iconAlt, placeholder } = props;
+
+  switch (fieldType) {
+    case FormFieldType.INPUT:
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+          {iconSrc && (
+            <Image
+              src={iconSrc}
+              height={24}
+              width={24}
+              alt={iconAlt || "icon"}
+              className="ml-2"
+            />
+          )}
+        </div>
+      );
+    default:
+      break;
+  }
+};
+
+const CustomFormField = (props: CustomProps) => {
+  const { control, fieldType, name, label } = props;
+
   return (
     <FormField
       control={control}
@@ -37,6 +63,10 @@ const CustomFormField = ({ control, fieldType, name, label }: CustomProps) => {
           {fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel>{label}</FormLabel>
           )}
+
+          <RenderField field={field} props={props} />
+
+          <FormMessage className="!text-red-400" />
         </FormItem>
       )}
     />
