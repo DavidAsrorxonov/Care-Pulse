@@ -44,6 +44,13 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               className="ml-2"
             />
           )}
+          <FormControl>
+            <Input
+              placeholder={placeholder}
+              {...field}
+              className="bg-dark-400 placeholder:text-dark-600 border-dark-500 h-11 focus-visible:ring-0 focus-visible:ring-offset-0 !important border-0"
+            />
+          </FormControl>
         </div>
       );
     default:
