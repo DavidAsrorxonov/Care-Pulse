@@ -145,6 +145,13 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
           </Select>
         </FormControl>
       );
+
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center gap-4"></div>
+        </FormControl>
+      );
     default:
       break;
   }
