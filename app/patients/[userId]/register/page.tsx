@@ -1,9 +1,12 @@
 import RegisterForm from "@/components/forms/RegisterForm";
+import { getUser } from "@/lib/cmd/patient.actions";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Register = () => {
+const Register = async ({ params: { userId } }: SearchParamProps) => {
+  const user = await getUser(userId);
+
   return (
     <div className="flex h-screen max-h-screen">
       <section className="relative flex-1 overflow-y-auto px-[5%] my-auto">
