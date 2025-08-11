@@ -20,7 +20,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
           />
 
           {/* <PatientForm /> */}
-          <RegisterForm />
+          <RegisterForm user={user} />
 
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify-items-end text-dark-600 xl:text-left">
@@ -39,7 +39,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
         alt="patient"
         height={1000}
         width={1000}
-        className="hidden h-full object-cover md:block max-x-[390px]"
+        className="hidden h-full object-cover md:block max-w-[390px]"
       />
     </div>
   );
