@@ -121,7 +121,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
         <FormControl>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="!bg-dark-400 !placeholder:text-dark-600 !border-dark-500 !h-11 !focus:ring-0 !focus:ring-offset-0">
+              <SelectTrigger className="w-full !bg-dark-400 !placeholder:text-dark-600 !border-dark-500 !h-11 !focus:ring-0 !focus:ring-offset-0">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
