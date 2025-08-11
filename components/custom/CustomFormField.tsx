@@ -16,6 +16,12 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface CustomProps {
   control: Control<any>;
@@ -109,6 +115,23 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
 
     case FormFieldType.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
+
+    case FormFieldType.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className="!bg-dark-400 !placeholder:text-dark-600 !border-dark-500 !h-11 !focus:ring-0 !focus:ring-offset-0">
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+            </FormControl>
+
+            <SelectContent className="!bg-dark-400 !border-dark-500">
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      );
     default:
       break;
   }
