@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/cmd/patient.actions";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Doctors, genderOptions } from "@/constants";
+import { Doctors, genderOptions, IdentificationTypes } from "@/constants";
 import { Label } from "../ui/label";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
@@ -232,6 +232,45 @@ const RegisterForm = ({ user }: { user: User }) => {
             placeholder="Aspirin, Ibuprofen, ..."
           />
         </div>
+
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="familyMedicalHistory"
+            label="Family Medical History (if any)"
+            placeholder="Heart Disease, Diabetes, ..."
+          />
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="pastMedicalHistory"
+            label="Past Medical History (if any)"
+            placeholder="Heart Disease, Diabetes, ..."
+          />
+        </div>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className=" text-xl md:text-2xl">
+              Identification and Verification
+            </h2>
+          </div>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="identificationType"
+          label="Identification Type"
+          placeholder="Select Identification Type"
+        >
+          {IdentificationTypes.map((type) => (
+            <SelectItem key={type} value={type}>
+              {type}
+            </SelectItem>
+          ))}
+        </CustomFormField>
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
