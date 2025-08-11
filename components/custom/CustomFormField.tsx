@@ -35,7 +35,14 @@ interface CustomProps {
 type E164Number = string;
 
 const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
-  const { fieldType, iconSrc, iconAlt, placeholder } = props;
+  const {
+    fieldType,
+    iconSrc,
+    iconAlt,
+    placeholder,
+    showTimeSelector,
+    dateFormat,
+  } = props;
 
   switch (fieldType) {
     case FormFieldType.INPUT:
@@ -77,7 +84,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
 
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+        <div className="flex items-center rounded-md border border-dark-500 bg-dark-400 h-11">
           <Image
             src={"/assets/icons/calendar.svg"}
             height={24}
@@ -90,6 +97,10 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             <DatePicker
               selected={field.value}
               onChange={(date) => field.onChange(date)}
+              dateFormat={dateFormat ?? "MM/dd/yyyy"}
+              showTimeSelect={showTimeSelector ?? false}
+              timeInputLabel="Time:"
+              className="w-full h-full bg-transparent px-3 outline-none text-lg placeholder:text-dark-600"
             />
           </FormControl>
         </div>
