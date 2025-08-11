@@ -42,6 +42,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     placeholder,
     showTimeSelector,
     dateFormat,
+    renderSkeleton,
   } = props;
 
   switch (fieldType) {
@@ -77,7 +78,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             withCountryCallingCode
             value={field.value as E164Number | undefined}
             onChange={field.onChange}
-            className="mt-2 h-11 rounded-md px-3 text-sm border bd-dark-400 placeholder:text-dark-600 border-dark-500 !imortant"
+            className="mt-2 h-11 rounded-md px-3 text-sm border border-dark-500 placeholder:text-dark-600 bg-dark-400 !focus:outline-none !outline-none !focus:ring-0 !focus:border-dark-500"
           />
         </FormControl>
       );
@@ -106,6 +107,8 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
         </div>
       );
 
+    case FormFieldType.SKELETON:
+      return renderSkeleton ? renderSkeleton(field) : null;
     default:
       break;
   }
