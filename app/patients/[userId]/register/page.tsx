@@ -24,7 +24,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
 
           <p className="justify-items-end text-dark-600 xl:text-left py-12">
             {" "}
-            © 2025 Care Pulse
+            © {new Date().getFullYear()} Care Pulse
           </p>
         </div>
       </section>
