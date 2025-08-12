@@ -14,9 +14,17 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+
 const PasskeyModal = () => {
   const router = useRouter();
   const [open, setOpen] = useState(true);
+  const [passkey, setPasskey] = useState("");
 
   const closeModal = () => {
     setOpen(false);
@@ -43,7 +51,40 @@ const PasskeyModal = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div></div>
+        <div>
+          <InputOTP
+            maxLength={6}
+            value={passkey}
+            onChange={(value) => setPasskey(value)}
+          >
+            <InputOTPGroup className="w-full flex justify-between">
+              <InputOTPSlot
+                className="!text-4xl !justify-center !flex !border !border-dark-500 !rounded-lg !size-16 !gap-4"
+                index={0}
+              />
+              <InputOTPSlot
+                className="!text-4xl !justify-center !flex !border !border-dark-500 !rounded-lg !size-16 !gap-4"
+                index={1}
+              />
+              <InputOTPSlot
+                className="!text-4xl !justify-center !flex !border !border-dark-500 !rounded-lg !size-16 !gap-4"
+                index={2}
+              />
+              <InputOTPSlot
+                className="!text-4xl !justify-center !flex !border !border-dark-500 !rounded-lg !size-16 !gap-4"
+                index={3}
+              />
+              <InputOTPSlot
+                className="!text-4xl !justify-center !flex !border !border-dark-500 !rounded-lg !size-16 !gap-4"
+                index={4}
+              />
+              <InputOTPSlot
+                className="!text-4xl !justify-center !flex !border !border-dark-500 !rounded-lg !size-16 !gap-4"
+                index={5}
+              />
+            </InputOTPGroup>
+          </InputOTP>
+        </div>
 
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
