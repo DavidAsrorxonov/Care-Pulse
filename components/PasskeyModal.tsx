@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +12,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   InputOTP,
@@ -20,15 +20,51 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { decryptKey, encryptKey } from "@/lib/utils";
 
 const PasskeyModal = () => {
   const router = useRouter();
+  const path = usePathname();
   const [open, setOpen] = useState(true);
   const [passkey, setPasskey] = useState("");
+  const [error, setError] = useState("");
+
+  const encryptedKey =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("accessKey")
+      : null;
+
+  useEffect(() => {
+    const accessKey = encryptedKey && decryptKey(encryptedKey);
+
+    if (path) {
+      if (accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+        setOpen(false);
+        router.push("/admin");
+      } else {
+        setOpen(true);
+      }
+    }
+  }, [encryptedKey]);
 
   const closeModal = () => {
     setOpen(false);
     router.push("/");
+  };
+
+  const validatePasskey = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+      const encryptedKey = encryptKey(passkey);
+      localStorage.setItem("accessKey", encryptedKey);
+
+      setOpen(false);
+    } else {
+      setError("Invalid Passkey! Please try again.");
+    }
   };
 
   return (
@@ -84,11 +120,21 @@ const PasskeyModal = () => {
               />
             </InputOTPGroup>
           </InputOTP>
+
+          {error && (
+            <p className="text-red-400 text-sm mt-4 flex justify-center">
+              {error}
+            </p>
+          )}
         </div>
 
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction
+            onClick={(e) => validatePasskey(e)}
+            className="!bg-green-500 !text-white w-full"
+          >
+            Enter admin passkey
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
