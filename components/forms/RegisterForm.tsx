@@ -29,6 +29,7 @@ const RegisterForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof PatientFormValidation>>({
+    // @ts-ignore
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       ...PatientFormDefaultValues,
@@ -76,6 +77,7 @@ const RegisterForm = ({ user }: { user: User }) => {
   return (
     <Form {...form}>
       <form
+        // @ts-ignore
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-12 flex-1"
       >
