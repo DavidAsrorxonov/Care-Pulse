@@ -3,10 +3,16 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import "./styles/custom.css";
+import PasskeyModal from "@/components/PasskeyModal";
 
-export default function Home() {
+export default async function Home(props: SearchParamProps) {
+  const searchParam = await props.searchParams;
+  const isAdmin = searchParam.admin === "true";
+
   return (
     <div className="flex h-screen max-h-screen">
+      {isAdmin && <PasskeyModal />}
+
       <section className="relative flex-1 overflow-y-auto px-[5%] my-auto">
         <div className="mx-auto flex size-full flex-col py-10 max-w-[496px]">
           <Image
