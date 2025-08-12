@@ -3,10 +3,29 @@ import "../../../styles/custom.css";
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/cmd/patient.actions";
 
-export default async function NewAppointment({
-  params: { userId },
-}: SearchParamProps) {
+export default async function NewAppointment(props: SearchParamProps) {
+  const { userId } = await props.params;
+
+  console.log("USER ID", userId);
   const patient = await getPatient(userId);
+
+  console.log("PATIENT", patient);
+
+  if (!patient) {
+    return (
+      <div className="flex h-screen max-h-screen items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-red-600">Patient Not Found</h1>
+          <p className="text-gray-600 mt-2">
+            No patient record found for user ID: {userId}
+          </p>
+          <p className="text-gray-600 mt-2">
+            Please register as a patient first.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -20,11 +39,15 @@ export default async function NewAppointment({
             className="mb-12 h-10 w-fit"
           />
 
-          <AppointmentForm type="create" userId={userId} patientId={""} />
+          <AppointmentForm
+            type="create"
+            userId={userId}
+            patientId={patient.$id}
+          />
 
-          <p className="justify-items-end text-dark-600 xl:text-left">
+          <p className="justify-items-end text-dark-600 xl:text-left py-12">
             {" "}
-            © 2025 Care Pulse
+            © {new Date().getFullYear()} Care Pulse
           </p>
         </div>
       </section>
