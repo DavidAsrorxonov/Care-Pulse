@@ -23,7 +23,7 @@ const AppointmentForm = ({
 }: {
   userId: string;
   patientId: string;
-  type: "create" | "cancel";
+  type: "create" | "cancel" | "schedule";
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +55,23 @@ const AppointmentForm = ({
     } catch (error) {
       console.log(error);
     }
+  }
+
+  let buttonLabel;
+
+  switch (type) {
+    case "cancel":
+      buttonLabel = "Cancel Appointment";
+      break;
+    case "create":
+      buttonLabel = "Create Appointment";
+      break;
+    case "schedule":
+      buttonLabel = "Schedule Appointment";
+      break;
+
+    default:
+      break;
   }
 
   return (
@@ -99,7 +116,7 @@ const AppointmentForm = ({
               dateFormat="MM/dd/yyyy - h:mm aa"
             />
 
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 xl:flex-row">
               <CustomFormField
                 fieldType={FormFieldType.TEXTAREA}
                 control={form.control}
@@ -119,7 +136,26 @@ const AppointmentForm = ({
           </>
         )}
 
-        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+        {type === "cancel" && (
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="cancellationReason"
+            label="Reason for cancellation"
+            placeholder="Enter your reason for cancellation"
+          />
+        )}
+
+        <SubmitButton
+          isLoading={isLoading}
+          className={`${
+            type === "cancel"
+              ? "!bg-red-700 !text-white"
+              : "!bg-green-500 !text-white"
+          } w-full`}
+        >
+          {buttonLabel}{" "}
+        </SubmitButton>
       </form>
     </Form>
   );
