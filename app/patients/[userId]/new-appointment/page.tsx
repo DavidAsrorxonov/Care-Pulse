@@ -20,11 +20,7 @@ export default async function NewAppointment({
             className="mb-12 h-10 w-fit"
           />
 
-          <AppointmentForm
-            type="create"
-            userId={userId}
-            patientId={patient.$id}
-          />
+          <AppointmentForm type="create" userId={userId} patientId={""} />
 
           <p className="justify-items-end text-dark-600 xl:text-left">
             {" "}

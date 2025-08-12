@@ -12,6 +12,9 @@ import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/cmd/patient.actions";
 import { FormFieldType } from "./PatientForm";
+import { Doctors } from "@/constants";
+import { SelectItem } from "../ui/select";
+import Image from "next/image";
 
 const AppointmentForm = ({
   userId,
@@ -62,33 +65,59 @@ const AppointmentForm = ({
           <p className="text-dark-700">Request a new appointment in seconds</p>
         </section>
 
-        <CustomFormField
-          fieldType={FormFieldType.INPUT}
-          control={form.control}
-          name="name"
-          label="Full Name"
-          placeholder="John Doe"
-          iconSrc="/assets/icons/user.svg"
-          iconAlt="user icon"
-        />
+        {type !== "cancel" && (
+          <>
+            <CustomFormField
+              fieldType={FormFieldType.SELECT}
+              control={form.control}
+              name="primaryPhysician"
+              label="Doctor"
+              placeholder="Select a doctor"
+            >
+              {Doctors.map((doctor) => (
+                <SelectItem key={doctor.name} value={doctor.name}>
+                  <div className="flex cursor-pointer items-center gap-2">
+                    <Image
+                      src={doctor.image}
+                      width={32}
+                      height={32}
+                      alt={doctor.name}
+                      className="rounded-full border border-dark-500"
+                    />
+                    <p>{doctor.name}</p>
+                  </div>
+                </SelectItem>
+              ))}
+            </CustomFormField>
 
-        <CustomFormField
-          fieldType={FormFieldType.INPUT}
-          control={form.control}
-          name="email"
-          label="Email"
-          placeholder="8Ow0q@example.com"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
-        />
+            <CustomFormField
+              fieldType={FormFieldType.DATE_PICKER}
+              control={form.control}
+              name="schedule"
+              label="Expected Appointment Date"
+              showTimeSelector
+              dateFormat="MM/dd/yyyy - h:mm aa"
+            />
 
-        <CustomFormField
-          fieldType={FormFieldType.PHONE_INPUT}
-          control={form.control}
-          name="phone"
-          label="Phone Number"
-          placeholder="(123) 456-7890"
-        />
+            <div className="flex flex-col gap-6">
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                control={form.control}
+                name="reason"
+                label="Reason for the appointment"
+                placeholder="Enter your reason for the appointment"
+              />
+
+              <CustomFormField
+                fieldType={FormFieldType.TEXTAREA}
+                control={form.control}
+                name="notes"
+                label="Notes"
+                placeholder="Enter any additional notes"
+              />
+            </div>
+          </>
+        )}
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
