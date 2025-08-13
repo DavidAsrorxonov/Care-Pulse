@@ -4,7 +4,7 @@ import { getRecentAppointmentsList } from "@/lib/cmd/appointment.actions";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { columns, Payment } from "@/components/table/Columns";
+import { columns } from "@/components/table/Columns";
 
 const Admin = async () => {
   const appointments = await getRecentAppointmentsList();
