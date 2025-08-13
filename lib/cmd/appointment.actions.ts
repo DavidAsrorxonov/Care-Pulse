@@ -3,6 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { databases } from "../appwrite.config";
 import { parseStringify } from "../utils";
+import { revalidatePath } from "next/cache";
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
@@ -67,6 +68,34 @@ export const getRecentAppointmentsList = async () => {
     };
 
     return parseStringify(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+}: UpdateAppointmentParams) => {
+  try {
+    const updatedAppointment = await databases.updateDocument(
+      process.env.DATABASE_ID!,
+      process.env.APPOINTMENTS_COLLECTION_ID!,
+      appointmentId,
+      appointment
+    );
+
+    if (!updatedAppointment) {
+      throw new Error("Failed to update appointment");
+    }
+
+    //SMS Notification
+
+    revalidatePath("/admin");
+
+    return parseStringify(updatedAppointment);
   } catch (error) {
     console.log(error);
   }
