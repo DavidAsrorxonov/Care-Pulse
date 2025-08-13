@@ -6,10 +6,7 @@ import { getPatient } from "@/lib/cmd/patient.actions";
 export default async function NewAppointment(props: SearchParamProps) {
   const { userId } = await props.params;
 
-  console.log("USER ID", userId);
   const patient = await getPatient(userId);
-
-  console.log("PATIENT", patient);
 
   if (!patient) {
     return (
